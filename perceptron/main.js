@@ -1,7 +1,7 @@
 class Perceptron{
-    constructor(inputLength){
+    constructor(inputLength, learningRate){
         this.weights = [];
-        this.learningRate = 0.001;
+        this.learningRate = learningRate;
 
         for(let i=0; i < inputLength; i++){
             this.weights[i] = this.random(1,-1);
@@ -38,20 +38,27 @@ class Perceptron{
 
 class Point{
     constructor(){
-        this.x = this.random(200,0);
-        this.y = this.random(200,0);
-        this.label = this.x > this.y ? 1 : -1;
+        this.x = this.random(1,-1);
+        this.y = this.random(1,-1);
+        //this.label = this.x > this.y ? 1 : -1;
+        this.label = this.y >= f(this.x) ? 1 : -1;
     }
 
     random(max,min){
-        return Math.random() * (max  - min) + min;
+        return Math.random()    * (max  - min) + min;
     }
 }
 
+function f(x){
+    const m = 0.3;
+    const b = 0.2; 
+    return m * x + b;
+}
+
 function main(){
-    const perceptron = new Perceptron(2);
+    const perceptron = new Perceptron(2,0.1);
     const points = [];
-    const pointsLenght = 100000;
+    const pointsLenght = 10000;
     let rate = 0;
     let untrainedRate = 0;
 
@@ -74,7 +81,11 @@ function main(){
         const target = point.label;
         
         perceptron.train(input, target);
-
+    });
+    
+    points.forEach(point => {
+        const input = [point.x, point.y];
+        const target = point.label;
         const guess = perceptron.guess(input);
 
         if(guess === target){
@@ -88,3 +99,4 @@ function main(){
 
 
 main();
+//setInterval(main,500);
