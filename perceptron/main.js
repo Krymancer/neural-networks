@@ -42,6 +42,7 @@ class Point{
         this.y = this.random(1,-1);
         //this.label = this.x > this.y ? 1 : -1;
         this.label = this.y >= f(this.x) ? 1 : -1;
+        this.bias = 1;
     }
 
     random(max,min){
@@ -56,9 +57,9 @@ function f(x){
 }
 
 function main(){
-    const perceptron = new Perceptron(2,0.1);
+    const perceptron = new Perceptron(3,0.1);
     const points = [];
-    const pointsLenght = 10000;
+    const pointsLenght = 1000;
     let rate = 0;
     let untrainedRate = 0;
 
@@ -67,7 +68,7 @@ function main(){
     }
     
     points.forEach(point => {
-        const input = [point.x, point.y];
+        const input = [point.x, point.y, point.bias];
         const target = point.label;
         const guess = perceptron.guess(input);
 
@@ -77,14 +78,14 @@ function main(){
     });
 
     points.forEach(point => {
-        const input = [point.x, point.y];
+        const input = [point.x, point.y, point.bias];
         const target = point.label;
         
         perceptron.train(input, target);
     });
     
     points.forEach(point => {
-        const input = [point.x, point.y];
+        const input = [point.x, point.y, point.bias];
         const target = point.label;
         const guess = perceptron.guess(input);
 
