@@ -13,20 +13,16 @@ Matrix::Matrix(unsigned rowSize, unsigned colSize, double initial) {
 
 // Constructor for Given Matrix
 Matrix::Matrix(const char *fileName) {
-    ifstream file_A(fileName);  // input file stream to open the file A.txt
-
-    // Task 1
-    // Keeps track of the Column and row sizes
+    ifstream file_A(fileName);
     int colSize = 0;
     int rowSize = 0;
-
-    // read it as a vector
     string line_A;
     int idx = 0;
     double element_A;
     double *vector_A = nullptr;
+
     if (fileName == "Error") {
-        std::cout << "The dimentions of Matrix Are wrong for this operation!\n";
+        std::cout << "The dimentions of Matrix are wrong for this operation!\n";
     } else {
         if (file_A.is_open() && file_A.good()) {
             // cout << "File A.txt is open. \n";
@@ -64,7 +60,7 @@ Matrix::Matrix(const char *fileName) {
     }
     cols = colSize;
     rows = rowSize;
-    delete[] vector_A;  // Tying up loose ends
+    delete[] vector_A;
 }
 
 // Copy Constructor
