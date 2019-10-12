@@ -15,12 +15,12 @@ class NeuralNetwork {
     Matrix bias_h;
     Matrix bias_o;
 
-    double learningRate;
+    double learningRate = 0.1;
 
    public:
     NeuralNetwork(const NeuralNetwork &);
     NeuralNetwork(unsigned, unsigned, unsigned);
-    ~NeuralNetwork();
+    NeuralNetwork();
 
     unsigned getInputNodes();
     unsigned getHiddenNodes();
@@ -32,7 +32,7 @@ class NeuralNetwork {
     Matrix getHiddenBias();
     Matrix getOutputBias();
 
-    void setLearningRate();
+    void setLearningRate(double);
 
     void train(vector<double>, vector<double>);
     vector<double> predict(vector<double>);

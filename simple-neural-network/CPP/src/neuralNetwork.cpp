@@ -1,5 +1,6 @@
 #include "neuralNetwork.h"
 
+// Constructor for Any NeuralNetwork
 NeuralNetwork::NeuralNetwork(unsigned input, unsigned hidden, unsigned output) {
     input_nodes = input;
     hidden_nodes = hidden;
@@ -18,6 +19,7 @@ NeuralNetwork::NeuralNetwork(unsigned input, unsigned hidden, unsigned output) {
     bias_o.randomize();
 }
 
+// Copy Constructor
 NeuralNetwork::NeuralNetwork(const NeuralNetwork &n) {
     input_nodes = n.input_nodes;
     hidden_nodes = n.hidden_nodes;
@@ -30,13 +32,17 @@ NeuralNetwork::NeuralNetwork(const NeuralNetwork &n) {
     bias_o = Matrix(n.bias_o);
 }
 
-NeuralNetwork::~NeuralNetwork() {
+// Default Constructor
+NeuralNetwork::NeuralNetwork() {
 }
 
-void NeuralNetwork::setLearningRate() {
-    this->learningRate = 0.1;
+// Set the learning rate
+void NeuralNetwork::setLearningRate(double rate) {
+    this->learningRate = rate; // default 0.1
 }
 
+// Train the neural network
+// args: Array with inputs, Array with the results
 void NeuralNetwork::train(vector<double> input_array, vector<double> target_array) {
     Matrix inputs = Matrix(input_array);
     Matrix hidden = this->weights_ih * inputs;
@@ -88,6 +94,9 @@ void NeuralNetwork::train(vector<double> input_array, vector<double> target_arra
     this->bias_h = this->bias_h + hidden_gradient;
 }
 
+// Predict a output
+// args: Array of inputs
+// return: Array of outputs to given inputs 
 vector<double> NeuralNetwork::predict(vector<double> input_array) {
     // Generating the hidden outputs
     Matrix inputs = Matrix(input_array);
@@ -105,10 +114,12 @@ vector<double> NeuralNetwork::predict(vector<double> input_array) {
     return output.toArray();
 }
 
+// Make a copy of this NeuralNetwork
 NeuralNetwork &NeuralNetwork::copy() {
     return *this;
 }
 
+// Apply a mutate function in weights and bias
 void NeuralNetwork::mutate(functioncall func) {
     this->weights_ih.map(func);
     this->weights_ho.map(func);
@@ -116,41 +127,49 @@ void NeuralNetwork::mutate(functioncall func) {
     this->bias_o.map(func);
 }
 
+// Fancy print all weights and bias
 void NeuralNetwork::print() {
-    std::cout << "Weights_HO" << std::endl;
+    std::cout << "Weights_HO\n";
     this->weights_ho.print();
-    std::cout << "Weights_IH" << std::endl;
+    std::cout << "Weights_IH\n";
     this->weights_ih.print();
-    std::cout << "Bias_H" << std::endl;
+    std::cout << "Bias_H\n";
     this->bias_h.print();
-    std::cout << "Bias_O" << std::endl;
+    std::cout << "Bias_O\n";
     this->bias_o.print();
 }
 
+// Get inputs #
 unsigned NeuralNetwork::getInputNodes() {
     return this->input_nodes;
 }
 
+// Get hidden #
 unsigned NeuralNetwork::getHiddenNodes() {
     return this->hidden_nodes;
 }
 
+// Get ouputs #
 unsigned NeuralNetwork::getOutputNodes() {
     return this->output_nodes;
 }
 
+// Get input-hidden weights Matrix
 Matrix NeuralNetwork::getWeightsIh() {
     return this->weights_ih;
 }
 
+// Get hiden-outputs weights Matrix
 Matrix NeuralNetwork::getWeightsHo() {
     return this->weights_ho;
 }
 
+// Get hidden bias Matrix
 Matrix NeuralNetwork::getHiddenBias() {
     return this->bias_h;
 }
 
+// Get output bias Matrix
 Matrix NeuralNetwork::getOutputBias() {
     return this->bias_o;
 }

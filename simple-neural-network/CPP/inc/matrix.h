@@ -13,6 +13,7 @@ typedef double (* functioncall)(double args);
 
 using std::tuple;
 using std::vector;
+
 class Matrix {
    private:
     unsigned rows;

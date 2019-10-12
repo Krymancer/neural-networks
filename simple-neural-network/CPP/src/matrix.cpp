@@ -25,29 +25,31 @@ Matrix::Matrix(const char *fileName) {
     int idx = 0;
     double element_A;
     double *vector_A = nullptr;
-
-    if (file_A.is_open() && file_A.good()) {
-        // cout << "File A.txt is open. \n";
-        while (getline(file_A, line_A)) {
-            rowSize += 1;
-            stringstream stream_A(line_A);
-            colSize = 0;
-            while (1) {
-                stream_A >> element_A;
-                if (!stream_A)
-                    break;
-                colSize += 1;
-                double *tempArr = new double[idx + 1];
-                copy(vector_A, vector_A + idx, tempArr);
-                tempArr[idx] = element_A;
-                vector_A = tempArr;
-                idx += 1;
-            }
-        }
+    if (fileName == "Error") {
+        std::cout << "The dimentions of Matrix Are wrong for this operation!\n";
     } else {
-        std::cout << " Failed to open. \n";
+        if (file_A.is_open() && file_A.good()) {
+            // cout << "File A.txt is open. \n";
+            while (getline(file_A, line_A)) {
+                rowSize += 1;
+                stringstream stream_A(line_A);
+                colSize = 0;
+                while (1) {
+                    stream_A >> element_A;
+                    if (!stream_A)
+                        break;
+                    colSize += 1;
+                    double *tempArr = new double[idx + 1];
+                    copy(vector_A, vector_A + idx, tempArr);
+                    tempArr[idx] = element_A;
+                    vector_A = tempArr;
+                    idx += 1;
+                }
+            }
+        } else {
+            std::cout << " Failed to open.\n";
+        }
     }
-
     int j;
     idx = 0;
     data.resize(rowSize);
@@ -130,7 +132,6 @@ Matrix Matrix::operator*(Matrix &B) {
         }
         return multip;
     } else {
-        std::cout << "Cols != rows" << std::endl;
         return "Error";
     }
 }
@@ -221,12 +222,12 @@ Matrix Matrix::transpose() {
 
 // Prints the matrix beautifully
 void Matrix::print() const {
-    cout << "Matrix: " << endl;
+    std::cout << "Matrix: \n";
     for (unsigned i = 0; i < rows; i++) {
         for (unsigned j = 0; j < cols; j++) {
             cout << "[" << data[i][j] << "] ";
         }
-        cout << endl;
+        std::cout << '\n';
     }
 }
 
@@ -262,7 +263,7 @@ tuple<Matrix, double, int> Matrix::powerIter(unsigned rowNum, double tolerance) 
             }
         }
         if (j >= 5e5) {
-            cout << "Oops, that was a nasty complex number wasn't it?" << endl;
+            cout << "Oops, that was a nasty complex number wasn't it?\n";
             cout << "ERROR! Returning code black, code black!";
             errorCode = -1;
             return make_tuple(X, 0.0, errorCode);
