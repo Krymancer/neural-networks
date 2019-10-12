@@ -101,6 +101,9 @@ Matrix Matrix::operator+(Matrix &B) {
 // Subtraction of Two Matrices
 Matrix Matrix::operator-(Matrix &B) {
     Matrix diff(rows, cols, 0.0);
+    if ((this->rows != B.getRows()) || (this->cols != B.getCols())) {
+        return "Error";
+    }
     unsigned i, j;
     for (i = 0; i < rows; i++) {
         for (j = 0; j < cols; j++) {
